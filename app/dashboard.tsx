@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TeamMemberCard } from './team-member-card';
 
 interface Member {
@@ -14,6 +14,30 @@ interface DSUDashboardProps {
 
 export const DSUDashboard = ({ members }: DSUDashboardProps) => {
   const [memberList, setMemberList] = useState(members);
+
+  useEffect(() => {
+    let keyBuffer = '';
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const currentKey = event.key.length === 1 ? event.key.toLowerCase() : '';
+      keyBuffer += currentKey;
+
+      const matches = memberList.filter((m) => m.name.toLowerCase().startsWith(keyBuffer));
+
+      if (matches.length === 1) {
+        updateMember(matches[0].id);
+        keyBuffer = '';
+      } else if (matches.length === 0) {
+        keyBuffer = ''; // reset on invalid path
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    // Run effect once on page load, no dependencies needed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const updateMember = (id: number) => {
     setMemberList((prev) =>
