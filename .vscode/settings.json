@@ -1,0 +1,42 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "editor.formatOnPaste": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/coverage": true,
+    ".build": true
+  },
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "sonarlint.connectedMode.project": {
+    "connectionId": "rccl",
+    "projectKey": "rccl_rcg-room-selection"
+  },
+  "[feature]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "alexkrechik.cucumberautocomplete"
+  },
+  "editor.quickSuggestions": {
+    "comments": false,
+    "strings": true,
+    "other": true
+  },
+  "editor.inlineSuggest.showToolbar": "always",
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
+}
