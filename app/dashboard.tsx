@@ -23,7 +23,7 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-4">DSU Team Members</h1>
+      <h1 className="text-4xl font-bold p-4 mb-4">DSU Team Members Status</h1>
 
       <div className="flex flex-wrap justify-center">
         {memberList.map((member) => (
