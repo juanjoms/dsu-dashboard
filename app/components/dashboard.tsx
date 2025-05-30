@@ -22,13 +22,21 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
       const currentKey = event.key.length === 1 ? event.key.toLowerCase() : '';
       keyBuffer += currentKey;
 
-      const matches = memberList.filter((m) => m.name.toLowerCase().startsWith(keyBuffer));
+      const matchResult = findMatchingMembers(keyBuffer);
 
-      if (matches.length === 1) {
-        updateMember(matches[0].id);
+      if (matchResult.isSingleMatch) {
+        updateMember(matchResult.member.id);
         keyBuffer = '';
-      } else if (matches.length === 0) {
-        keyBuffer = ''; // reset on invalid path
+        return;
+      }
+
+      if (matchResult.noMatches) {
+        keyBuffer = '';
+        const fallback = findMatchingMembers(currentKey);
+        if (fallback.isSingleMatch) {
+          updateMember(fallback.member.id);
+          keyBuffer = '';
+        }
       }
     };
 
@@ -38,6 +46,15 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
     // Run effect once on page load, no dependencies needed
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const findMatchingMembers = (key: string) => {
+    const matches = memberList.filter((member) => member.name.toLowerCase().startsWith(key));
+    return {
+      noMatches: matches.length === 0,
+      isSingleMatch: matches.length === 1,
+      member: matches[0],
+    };
+  };
 
   const updateMember = (id: number) => {
     setMemberList((prev) =>
@@ -59,6 +76,10 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
           />
         ))}
       </div>
+
+      <p className="text-gray-500 mt-4">
+        Type the first one or two letters of a member&apos;s name, or click their card to mark them as done.
+      </p>
     </div>
   );
 };

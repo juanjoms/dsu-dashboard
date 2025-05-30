@@ -1,4 +1,4 @@
-import { DSUDashboard } from './dashboard';
+import { DSUDashboard } from './components/dashboard';
 //import './globals.css';
 
 const shuffle = <T,>(array: T[]): T[] => [...array].sort(() => Math.random() - 0.5);
