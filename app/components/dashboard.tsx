@@ -2,12 +2,6 @@
 import { useEffect, useState } from 'react';
 import { TeamMemberCard } from './team-member-card';
 
-interface Member {
-  id: number;
-  name: string;
-  activated: boolean;
-}
-
 interface DSUDashboardProps {
   members: Member[];
 }
@@ -17,26 +11,27 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
 
   useEffect(() => {
     let keyBuffer = '';
-
     const handleKeyDown = (event: KeyboardEvent) => {
       const currentKey = event.key.length === 1 ? event.key.toLowerCase() : '';
       keyBuffer += currentKey;
+      let matchingMembers = memberList.filter((member) => member.name.toLowerCase().startsWith(keyBuffer));
+      debugger;
+      if (matchingMembers.length === 0) {
+        keyBuffer = currentKey;
+      }
+      matchingMembers = memberList.filter((member) => member.name.toLowerCase().startsWith(keyBuffer));
 
-      const matchResult = findMatchingMembers(keyBuffer);
-
-      if (matchResult.isSingleMatch) {
-        updateMember(matchResult.member.id);
+      if (matchingMembers.length === 0) {
+        keyBuffer = '';
+        updateMatches(keyBuffer);
+      }
+      if (matchingMembers.length === 1) {
+        activateMember(matchingMembers[0].id);
         keyBuffer = '';
         return;
       }
-
-      if (matchResult.noMatches) {
-        keyBuffer = '';
-        const fallback = findMatchingMembers(currentKey);
-        if (fallback.isSingleMatch) {
-          updateMember(fallback.member.id);
-          keyBuffer = '';
-        }
+      if (matchingMembers.length > 1) {
+        updateMatches(keyBuffer);
       }
     };
 
@@ -47,18 +42,28 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const findMatchingMembers = (key: string) => {
-    const matches = memberList.filter((member) => member.name.toLowerCase().startsWith(key));
-    return {
-      noMatches: matches.length === 0,
-      isSingleMatch: matches.length === 1,
-      member: matches[0],
-    };
+  const updateMatches = (keyBuffer: string) => {
+    setMemberList((prev) =>
+      prev.map((member) => {
+        const match = member.name.match(new RegExp(`^${keyBuffer}`, 'i'))?.[0] || '';
+        const rest = member.name.replace(match, '');
+        return {
+          ...member,
+          match,
+          rest,
+        };
+      }),
+    );
   };
 
-  const updateMember = (id: number) => {
+  const activateMember = (id: string) => {
     setMemberList((prev) =>
-      prev.map((member) => (member.id === id ? { ...member, activated: !member.activated } : member)),
+      prev.map((member) => ({
+        ...member,
+        active: member.id === id ? !member.active : member.active,
+        match: '',
+        rest: member.name,
+      })),
     );
   };
 
@@ -68,12 +73,7 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
 
       <div className="flex flex-wrap justify-center">
         {memberList.map((member) => (
-          <TeamMemberCard
-            key={member.id}
-            name={member.name}
-            activated={member.activated}
-            activateMember={() => updateMember(member.id)}
-          />
+          <TeamMemberCard key={member.id} member={member} activateMember={() => activateMember(member.id)} />
         ))}
       </div>
 

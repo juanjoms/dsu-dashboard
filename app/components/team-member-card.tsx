@@ -2,22 +2,23 @@
 import clsx from 'clsx';
 
 interface TeamMemberProps {
-  name: string;
-  activated: boolean;
+  member: Member;
   activateMember: () => void;
 }
-export const TeamMemberCard = ({ name, activated, activateMember }: TeamMemberProps) => {
+export const TeamMemberCard = ({ member, activateMember }: TeamMemberProps) => {
   return (
     <div
       onClick={() => activateMember()}
       className={clsx(
         'shadow-md rounded-lg p-4 m-2 w-40 sm:w-64 hover:shadow-lg transition-shadow duration-300 border-2 cursor-pointer',
-
-        activated ? 'bg-green-100 border-green-500' : 'bg-white border-white',
+        member.active ? 'bg-green-100 border-green-500' : 'bg-white border-white',
       )}
     >
-      <h2 className="text-xl font-semibold">{name}</h2>
-      <p className="text-gray-600">{activated ? 'Done' : 'Pending'}</p>
+      <h2 className="text-xl font-semibold">
+        <span className="text-sky-500">{member.match}</span>
+        {member.rest}
+      </h2>
+      <p className="text-gray-600">{member.active ? 'Done' : 'Pending'}</p>
     </div>
   );
 };
