@@ -17,18 +17,16 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
       let matchingMembers = memberList.filter((member) => member.name.toLowerCase().startsWith(keyBuffer));
       debugger;
       if (matchingMembers.length === 0) {
+        matchingMembers = memberList.filter((member) => member.name.toLowerCase().startsWith(currentKey));
         keyBuffer = currentKey;
       }
-      matchingMembers = memberList.filter((member) => member.name.toLowerCase().startsWith(keyBuffer));
 
       if (matchingMembers.length === 0) {
-        keyBuffer = '';
-        updateMatches(keyBuffer);
+        updateMatches('');
       }
       if (matchingMembers.length === 1) {
         activateMember(matchingMembers[0].id);
         keyBuffer = '';
-        return;
       }
       if (matchingMembers.length > 1) {
         updateMatches(keyBuffer);
