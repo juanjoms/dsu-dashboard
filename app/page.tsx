@@ -24,6 +24,7 @@ export default function Home() {
     member('Juanjo'),
     member('Jan Erik'),
     member('Noel'),
+    member('Victor'),
   ]);
 
   return <DSUDashboard members={members} />;

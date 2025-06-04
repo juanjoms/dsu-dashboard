@@ -76,7 +76,7 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
       </div>
 
       <p className="text-gray-500 mt-4">
-        Type the first one or two letters of a member&apos;s name, or click their card to mark them as done.
+        Type the initial(s) of a team member, or click their name to mark them as done.
       </p>
     </div>
   );
