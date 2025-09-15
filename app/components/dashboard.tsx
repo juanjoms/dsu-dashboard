@@ -69,7 +69,7 @@ export const DSUDashboard = ({ members }: DSUDashboardProps) => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-8">
       <h1 className="text-4xl font-bold p-4 mb-4">DSU Team Members Status</h1>
 
-      <div className="flex flex-wrap justify-center">
+      <div className="flex flex-wrap justify-center max-w-[1440px] gap-5">
         {memberList.map((member) => (
           <TeamMemberCard key={member.id} member={member} activateMember={() => activateMember(member.id)} />
         ))}
