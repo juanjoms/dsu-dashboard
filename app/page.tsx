@@ -22,8 +22,6 @@ export default function Home() {
     member('Mike'),
     member('Bernardo'),
     member('Juanjo'),
-    member('Jan Erik'),
-    member('Noel'),
     member('Victor'),
   ]);
 
